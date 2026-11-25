@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CargaCero · Tu monotributo por WhatsApp</title>
+<meta name="description" content="Facturá por WhatsApp, sabé cuánto te falta para pasarte de categoría y no te olvides más de un vencimiento.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: cercano y claro, como un amigo que sabe de impuestos; nada de jerga.
+   IDEA: la conversación de WhatsApp con tu asistente es el producto.
+   PICTURE: un teléfono con el chat real: factura por audio, aviso de tope, vencimiento.
+   COLOUR and TYPE: verde petróleo de CargaCero, fondo hielo, acento coral; Space Grotesk + Inter.
+   LAYOUT: primer pantallazo con titular y teléfono, después problema, funciones, seguridad, lista de espera. */
+:root{color-scheme:light dark;
+  --bg:light-dark(#eef6f4,#0b1716);--panel:light-dark(#ffffff,#122422);--ink:light-dark(#10201e,#e8f2f0);
+  --soft:light-dark(#4a5b58,#a9bdb9);--brand:light-dark(#0b5d56,#3fb3a5);--brand-ink:#ffffff;
+  --accent:light-dark(#e5484d,#ff7a7e);--line:light-dark(#d5e4e0,#24403c);
+  --bubble-in:light-dark(#ffffff,#1b3330);--bubble-out:light-dark(#d9f2ec,#1f4a43);--chat:light-dark(#e6efec,#0f1f1d)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,5.2vw,52px);letter-spacing:-.02em}
+h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.015em}
+h3{font-size:19px}
+p{margin:0}
+a{color:var(--brand)}
+.wrap{max-width:1180px;margin:0 auto}
+.band{padding:clamp(40px,6vw,88px) max(5vw,18px)}
+header{padding:16px max(5vw,18px);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font:700 21px "Space Grotesk",sans-serif;color:var(--ink);text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border-radius:12px;
+  background:var(--brand);color:var(--brand-ink);font-weight:600;text-decoration:none;border:0;font-size:16px;cursor:pointer}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,64px);align-items:center}
+.hero p.lead{font-size:clamp(17px,1.6vw,19px);color:var(--soft);margin:18px 0 28px;max-width:34em}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.note{font-size:14px;color:var(--soft);margin-top:14px}
+/* teléfono */
+.phone{justify-self:center;width:min(360px,100%);background:light-dark(#0f1f1d,#000);border-radius:42px;padding:12px;
+  box-shadow:0 30px 60px -20px rgba(6,40,36,.45)}
+.screen{background:var(--chat);border-radius:32px;overflow:hidden}
+.chat-head{background:var(--brand);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px}
+.chat-head b{font-family:"Space Grotesk",sans-serif;font-size:17px}
+.chat-head small{display:block;opacity:.8;font-size:13px}
+.msgs{padding:16px 12px 20px;display:flex;flex-direction:column;gap:10px;min-height:470px}
+.m{max-width:84%;padding:9px 12px;border-radius:14px;font-size:14.5px;line-height:1.4;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.in{background:var(--bubble-in);align-self:flex-start;border-top-left-radius:4px}
+.out{background:var(--bubble-out);align-self:flex-end;border-top-right-radius:4px}
+.audio{display:flex;align-items:center;gap:8px}
+.audio i{flex:1;height:4px;border-radius:2px;background:linear-gradient(90deg,var(--brand) 40%,var(--line) 40%)}
+.bar{height:8px;border-radius:4px;background:var(--line);margin:8px 0 4px;overflow:hidden}
+.bar span{display:block;height:100%;width:82%;background:var(--accent);border-radius:4px}
+.m small{display:block;color:var(--soft);font-size:12px}
+.m{opacity:0;transform:translateY(6px);animation:in .5s ease forwards}
+.m:nth-child(2){animation-delay:.6s}.m:nth-child(3){animation-delay:1.2s}.m:nth-child(4){animation-delay:1.8s}.m:nth-child(5){animation-delay:2.4s}
+@keyframes in{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.m{animation:none;opacity:1;transform:none}}
+/* secciones */
+.problem{background:var(--panel)}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:32px}
+.card{background:var(--bg);border-radius:16px;padding:24px}
+.problem .card{background:var(--bg)}
+.card p{color:var(--soft);margin-top:8px}
+.feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:32px}
+.feat .card{background:var(--panel);display:flex;gap:16px}
+.ico{flex:none;width:44px;height:44px;border-radius:12px;background:var(--brand);display:grid;place-items:center}
+.trust{background:var(--brand);color:#fff}
+.trust h2{color:#fff}
+.trust ul{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.trust li{background:rgba(255,255,255,.08);border-radius:16px;padding:22px}
+.trust li p{opacity:.85;margin-top:6px}
+.join{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.join .box{background:var(--panel);border-radius:20px;padding:clamp(24px,4vw,40px)}
+.join ol{padding-left:20px;color:var(--soft);margin:16px 0 0}
+.join ol li{margin-bottom:6px}
+details{border-top:1px solid var(--line);padding:16px 0}
+details summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+details summary::after{content:"+";font-size:22px;line-height:1;color:var(--brand)}
+details[open] summary::after{content:"–"}
+details p{color:var(--soft);margin-top:10px}
+footer{padding:28px max(5vw,18px);color:var(--soft);font-size:14px;border-top:1px solid var(--line)}
+@media(max-width:860px){.hero,.join{grid-template-columns:minmax(0,1fr)}.grid3,.trust ul{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){.feat{grid-template-columns:minmax(0,1fr)}.msgs{min-height:0}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <svg width="32" height="32" viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="7" fill="#0b5d56"/><path d="M9 15.5l4 4 8-9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    CargaCero
+  </a>
+  <a class="btn" data-form href="#lista">Sumarme a la lista</a>
+</header>
+
+<section class="band">
+  <div class="wrap hero">
+    <div>
+      <h1>Tu monotributo, bajo control desde WhatsApp.</h1>
+      <p class="lead">Facturás con un audio, sabés en todo momento cuánto te falta para pasarte de categoría y te avisamos antes de cada vencimiento. Sin entrar a ARCA, sin planillas.</p>
+      <div class="ctas">
+        <a class="btn" data-form href="#lista">Quiero probarlo</a>
+        <a class="btn ghost" href="#como">Cómo funciona</a>
+      </div>
+      <p class="note">Estamos en desarrollo. Sumate a la lista de espera y probalo gratis antes que nadie.</p>
+    </div>
+
+    <div class="phone" role="img" aria-label="Ejemplo de conversación con el asistente de CargaCero por WhatsApp">
+      <div class="screen">
+        <div class="chat-head">
+          <svg width="34" height="34" viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="14" fill="#fff"/><path d="M9 15.5l4 4 8-9" stroke="#0b5d56" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><b>CargaCero</b><small>tu asistente de monotributo</small></div>
+        </div>
+        <div class="msgs">
+          <div class="m out"><div class="audio"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1l10 6-10 6z" fill="currentColor"/></svg><i></i><small>0:06</small></div>
+            <small>"Facturale 85 mil a Lucía Gómez por el diseño del logo"</small></div>
+          <div class="m in">Listo ✓ Factura C 0002-00000148 a <b>Lucía Gómez</b> por <b>$ 85.000</b>.<br>Te dejo el PDF para que se lo mandes.</div>
+          <div class="m in">Ojo: con esta factura llevás el <b>82%</b> del tope anual de tu categoría.
+            <div class="bar"><span></span></div><small>A este ritmo, lo superás en marzo.</small></div>
+          <div class="m out">¿Y qué hago?</div>
+          <div class="m in">Tenés dos opciones: recategorizarte en el próximo período o ajustar lo que facturás. Te explico cuánto pagarías en cada caso 👇</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="wrap note" style="margin-top:18px">Conversación de ejemplo con datos ficticios.</p>
+</section>
+
+<section class="band problem">
+  <div class="wrap">
+    <h2>El monotributo ya no es "pagar la cuota y listo"</h2>
+    <div class="grid3">
+      <div class="card"><h3>ARCA mira más que tus facturas</h3><p>Hoy cruza también movimientos de cuentas y billeteras virtuales. Muchos monotributistas se enteraron de una recategorización cuando ya había pasado.</p></div>
+      <div class="card"><h3>No sabés cuánto te falta</h3><p>Los topes cambian dos veces por año y casi nadie lleva la cuenta de lo facturado en los últimos 12 meses hasta que es tarde.</p></div>
+      <div class="card"><h3>Facturar es un trámite</h3><p>Entrar con clave fiscal, buscar el servicio, completar todo, descargar el PDF. Para algo que hacés varias veces por mes.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="como">
+  <div class="wrap">
+    <h2>Todo lo que hoy hacés a mano, en un chat</h2>
+    <div class="feat">
+      <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></div>
+        <div><h3>Facturá con un audio o un mensaje</h3><p>Decís a quién, cuánto y por qué. Recibís la factura C lista para reenviar.</p></div></div>
+      <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><path d="M4 20h16M7 16V9M12 16V5M17 16v-4"/></svg></div>
+        <div><h3>Tu tope, siempre a la vista</h3><p>Cuánto facturaste en los últimos 12 meses, cuánto te queda y cuándo lo alcanzarías al ritmo actual.</p></div></div>
+      <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 004 0"/></svg></div>
+        <div><h3>Avisos antes de cada vencimiento</h3><p>La cuota del mes y la recategorización semestral, con tiempo para que no se te pase.</p></div></div>
+      <div class="card"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div>
+        <div><h3>Simulá antes de decidir</h3><p>"¿Qué pasa si facturo 300 mil más este mes?" y te responde con números, en criollo.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band trust">
+  <div class="wrap">
+    <h2>Pensado para que tus datos estén seguros</h2>
+    <ul>
+      <li><h3>Sin compartir tu clave fiscal</h3><p>La conexión con ARCA se hace con la delegación oficial de servicios, que podés revocar cuando quieras.</p></li>
+      <li><h3>Vos confirmás cada factura</h3><p>El asistente prepara la factura y no la emite hasta que le decís que sí.</p></li>
+      <li><h3>Tus datos son tuyos</h3><p>No vendemos ni compartimos tu información. Si te das de baja, se borra.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band" id="lista">
+  <div class="wrap join">
+    <div>
+      <h2>Sumate a la lista de espera</h2>
+      <p class="lead" style="color:var(--soft);margin-top:14px">Las primeras personas de la lista lo prueban gratis y nos ayudan a definir cómo funciona. Te toma un minuto.</p>
+      <ol>
+        <li>Completás el formulario: nombre, WhatsApp y tu categoría.</li>
+        <li>Te escribimos cuando esté lista la prueba.</li>
+        <li>Lo usás gratis y nos contás qué te sirve.</li>
+      </ol>
+    </div>
+    <div class="box">
+      <h3 style="font-size:22px">Quiero probarlo</h3>
+      <p style="color:var(--soft);margin:8px 0 20px">Gratis durante la prueba. Sin compromiso.</p>
+      <a class="btn" data-form href="#lista" style="width:100%">Completar el formulario</a>
+      <p class="note" id="form-note" hidden>El formulario se habilita en breve. Mientras tanto, escribinos a cargacero.facturas@gmail.com</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" style="padding-top:0">
+  <div class="wrap" style="max-width:760px">
+    <h2 style="margin-bottom:12px">Preguntas frecuentes</h2>
+    <details><summary>¿Reemplaza a mi contador?</summary><p>No. Te ayuda con el día a día (facturar, controlar el tope, no olvidarte de vencimientos). Si tenés contador, le va a llegar todo más ordenado.</p></details>
+    <details><summary>¿Cuánto va a costar?</summary><p>Durante la prueba es gratis. Después va a ser una suscripción mensual accesible; las personas de la lista de espera tienen precio preferencial.</p></details>
+    <details><summary>¿Necesito instalar algo?</summary><p>No. Funciona en el WhatsApp que ya usás.</p></details>
+    <details><summary>¿Sirve para cualquier categoría?</summary><p>Sí, para monotributistas de todas las categorías que emiten facturas C.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">CargaCero · cargacero.facturas@gmail.com<br>CargaCero es un servicio independiente y no está afiliado a ARCA.</div>
+</footer>
+
+<script>
+{
+  // Pegá acá el link de tu Google Form de lista de espera:
+  const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfALvZUARR1Ru6v8yRsKFPm9V9_9FzHxVb3tRLykUfSsOX_wg/viewform?usp=publish-editor";
+  const links = document.querySelectorAll("[data-form]");
+  if (FORM_URL) {
+    links.forEach(a => { a.href = FORM_URL; a.target = "_blank"; a.rel = "noopener"; });
+  } else {
+    const note = document.getElementById("form-note");
+    if (note) note.hidden = false;
+  }
+}
+</script>
+</body>
+</html>
